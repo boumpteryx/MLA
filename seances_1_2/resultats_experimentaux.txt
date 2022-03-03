@@ -1,0 +1,32 @@
+size of instance = 10000
+0.8855314 seconds for exercise 1
+2.3046896 seconds for exercise 2
+1.8117969 seconds for exercise 3
+0.8836175 seconds for exercise 4
+0.9047372 seconds for exercise 5
+size of instance = 20000
+3.0592581 seconds for exercise 1
+9.2041924 seconds for exercise 2
+6.999881 seconds for exercise 3
+3.056598 seconds for exercise 4
+3.0731746 seconds for exercise 5
+size of instance = 30000
+6.6741509 seconds for exercise 1
+20.4173464 seconds for exercise 2
+17.4533253 seconds for exercise 3
+6.9076873 seconds for exercise 4
+6.8340439 seconds for exercise 5
+size of instance = 40000
+12.1385083 seconds for exercise 1
+35.0567302 seconds for exercise 2
+30.3011297 seconds for exercise 3
+15.0925379 seconds for exercise 4
+14.1422959 seconds for exercise 5
+size of instance = 50000
+19.4808904 seconds for exercise 1
+194.9709277 seconds for exercise 2
+42.1317252 seconds for exercise 3
+18.9680373 seconds for exercise 4
+20.6935127 seconds for exercise 5
+CPLEX 12.10
+Gurobi 9.1.1
