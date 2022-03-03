@@ -1,9 +1,8 @@
 using JuMP
 using CPLEX
 include("parser.jl")
-using Memoize # useless :/
 
-@memoize function FastBenders(MyFileName::String, nn = 0, bendersbool = false)
+function FastBenders(MyFileName::String, nn = 0, bendersbool = false)
   n, f, c, w, d = read_instance(MyFileName)
   if nn != 0
     n = nn

@@ -7,26 +7,31 @@ include("exercice3.jl")
 include("exercice4.jl")
 include("exercice5.jl")
 
-start = time()
-size = 50000
-Benders("instance1.txt", size) # exo 1
-time1 = time() - start
+timee = Array{Float64,2}(zeros(10,5))
+for i in 10000:10000:50000
+  size = i
+  j = i÷10000
+  time_1 = @timed Benders("instance1.txt", size) # exo 1
+  timee[j,1] = time_1.time
 
-Normal("instance1.txt", size) # exo 2
-time2 = time() - time1
+  time_2 = @timed Normal("instance1.txt", size) # exo 2
+  timee[j,2] = time_2.time
 
-AutoBenders("instance1.txt", size) # exo 3
-time3 = time() - time2
+  time_3 = @timed AutoBenders("instance1.txt", size) # exo 3
+  timee[j,3] = time_3.time
 
-FastBenders("instance1.txt", size) # exo 4
-time4 = time() - time3
+  time_4 = @timed FastBenders("instance1.txt", size) # exo 4
+  timee[j,4] = time_4.time
 
-FastBendersGurobi("instance1.txt", size) # exo 5
-time5 = time() - time4
+  time_5 = @timed FastBendersGurobi("instance1.txt", size) # exo 5
+  timee[j,5] = time_5.time
+end
 
-println("size of instance = ", size)
-println(time1, " seconds for exercise 1")
-println(time2, " seconds for exercise 2")
-println(time3, " seconds for exercise 3")
-println(time4, " seconds for exercise 4")
-println(time5, " seconds for exercise 5")
+for j in 1:5
+  println("size of instance = ", j*10000)
+  println(timee[j,1], " seconds for exercise 1")
+  println(timee[j,2], " seconds for exercise 2")
+  println(timee[j,3], " seconds for exercise 3")
+  println(timee[j,4], " seconds for exercise 4")
+  println(timee[j,5], " seconds for exercise 5")
+end

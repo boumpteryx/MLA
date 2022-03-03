@@ -1,9 +1,8 @@
 using JuMP
 using Gurobi
 include("parser.jl")
-using Memoize # useless :/
 
-@memoize function FastBendersGurobi(MyFileName::String, nn = 0::Int64, bendersbool = false::Bool)
+function FastBendersGurobi(MyFileName::String, nn = 0::Int64, bendersbool = false::Bool)
   n, f, c, w, d = read_instance(MyFileName)
   if nn != 0
     n = nn
