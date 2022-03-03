@@ -5,6 +5,7 @@ include("exercice1.jl")
 include("exercice2.jl")
 include("exercice3.jl")
 include("exercice4.jl")
+include("exercice5.jl")
 
 start = time()
 
@@ -12,5 +13,6 @@ start = time()
 # Normal("instance1.txt", 1000) # exo 2
 # AutoBenders("instance1.txt", 1000) # exo 3
 FastBenders("instance1.txt") # exo 4
+FastBendersGurobi("instance1.txt") # exo 5
 
 println(time() - start, " time")

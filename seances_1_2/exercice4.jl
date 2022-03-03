@@ -35,36 +35,39 @@ using Memoize # useless :/
   v_star = v
 
   while w_star < d*b_star - sum(y_star[i]*v_star[i] for i in 1:n-1)
-    println("iteration ############")
-    println(c)
-    #### sous-probleme ####
-    # Create the model
-    m1 = Model(CPLEX.Optimizer)
+    if sum(y[i] for i in 1:n-1) > d
+      #### sous-probleme ####
+      # Create the model
+      m1 = Model(CPLEX.Optimizer)
 
-    ## Variables
-    @variable(m1, v[1:n-1] >= 0)
-    @variable(m1, b)
+      ## Variables
+      @variable(m1, v[1:n-1] >= 0)
+      @variable(m1, b)
 
-    ## Constraints
-    @constraint(m1, [i in 1:n-1], b - v[i] <= c[i])
+      ## Constraints
+      @constraint(m1, [i in 1:n-1], b - v[i] <= c[i])
 
-    ## Objective
-    @objective(m1, Max, d*b - sum(y_star[i]*v[i] for i in 1:n-1))
+      ## Objective
+      @objective(m1, Max, d*b - sum(y_star[i]*v[i] for i in 1:n-1))
 
-    #resolution
-    optimize!(m1)
+      #resolution
+      optimize!(m1)
 
-    w_star  = JuMP.objective_value.(m1)
-    v_star = JuMP.getvalue.( m1[:v] )
-    b_star = JuMP.getvalue.( m1[:b] )
-    println(v_star)
+      w_star  = JuMP.objective_value.(m1)
+      v_star = JuMP.getvalue.( m1[:v] )
+      b_star = JuMP.getvalue.( m1[:b] )
+      println(v_star)
 
-    #### adding Constraints
-    @constraint(m, w >= d*b_star - sum(y[i]*v_star[i] for i in 1:n-1))
+      #### adding Constraints
+      @constraint(m, w >= d*b_star - sum(y[i]*v_star[i] for i in 1:n-1))
 
-    optimize!(m)
-    y_star = JuMP.getvalue.( m[:y] )
-    w_star = JuMP.getvalue.( m[:w] )
+      optimize!(m)
+      y_star = JuMP.getvalue.( m[:y] )
+      w_star = JuMP.getvalue.( m[:w] )
+    end
+    if sum(y[i] for i in 1:n-1) == d
+      # resoudre sans PL ??
+    end
   end
 
 end
