@@ -38,5 +38,4 @@ function AutoBenders(MyFileName::String, nn = 0, bendersbool = false)
   #resolution
   set_optimizer_attribute(m, "CPXPARAM_Benders_Strategy",3)
   optimize!(m)
-  println(JuMP.getvalue.( m[:y] ))
 end

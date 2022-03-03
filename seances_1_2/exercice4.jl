@@ -3,8 +3,22 @@ using CPLEX
 include("parser.jl")
 using Memoize # useless :/
 
-@memoize function FastBenders(MyFileName::String)
+@memoize function FastBenders(MyFileName::String, nn = 0, bendersbool = false)
   n, f, c, w, d = read_instance(MyFileName)
+  if nn != 0
+    n = nn
+    d = n÷2
+    f = Array{Int64,1}(zeros(n))
+    c = Array{Int64,1}(zeros(n))
+    f[1], c[1] = 7, 8
+    for i in 2:n
+      f[i] = (f[i-1]*f[1])%159
+      c[i] = (c[i-1]*c[1])%61
+    end
+  end
+  if bendersbool
+    w = 1
+  end
   b = 1
   v = Array{Int64,1}(zeros(n-1))
 
@@ -35,7 +49,7 @@ using Memoize # useless :/
   v_star = v
 
   while w_star < d*b_star - sum(y_star[i]*v_star[i] for i in 1:n-1)
-    if sum(y[i] for i in 1:n-1) > d
+    if sum(y_star[i] for i in 1:n-1) > d
       #### sous-probleme ####
       # Create the model
       m1 = Model(CPLEX.Optimizer)
@@ -56,7 +70,6 @@ using Memoize # useless :/
       w_star  = JuMP.objective_value.(m1)
       v_star = JuMP.getvalue.( m1[:v] )
       b_star = JuMP.getvalue.( m1[:b] )
-      println(v_star)
 
       #### adding Constraints
       @constraint(m, w >= d*b_star - sum(y[i]*v_star[i] for i in 1:n-1))
@@ -65,9 +78,12 @@ using Memoize # useless :/
       y_star = JuMP.getvalue.( m[:y] )
       w_star = JuMP.getvalue.( m[:w] )
     end
-    if sum(y[i] for i in 1:n-1) == d
-      # resoudre sans PL ??
+    if sum(y_star[i] for i in 1:n-1) == d
+      # sans PL
+      b_star = max(c[i], i in 1:n-1)
+      for i in 1:n-1
+        v_star[i] = b_star - c[i]
+      end
     end
   end
-
 end

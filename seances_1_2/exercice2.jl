@@ -38,5 +38,4 @@ function Normal(MyFileName::String, nn = 0, bendersbool = false)
 
   #resolution
   optimize!(m)
-  println(JuMP.getvalue.( m[:y] ))
 end
