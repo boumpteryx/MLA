@@ -35,3 +35,4 @@ for j in 1:5
   println(timee[j,4], " seconds for exercise 4")
   println(timee[j,5], " seconds for exercise 5")
 end
+
