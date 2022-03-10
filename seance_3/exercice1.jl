@@ -13,7 +13,6 @@ function Benders(file::String, b::Int64)
 
   ## Constraints
 
-
   ## Objective
   @objective(m0, Min, sum(y[i] for i in 1:m))
 
@@ -33,8 +32,8 @@ function Benders(file::String, b::Int64)
     @variable(m1, v[1:m+n] >= 0)
 
     ## Constraints
-    @constraint(m1, [ij in n+1:n+m, i in 1:n, j in 1:n ; i<j], - v[ij] - v[i] + v[j] <= 0)
-    @constraint(m1, [ij in n+1:n+m, i in 1:n, j in 1:n ; i<j], - v[ij] + v[i] - v[j] <= 0)
+    @constraint(m1, [i in 1:m], - v[i] - v[adj[2*i-1]] + v[adj[2*i]] <= 0)
+    @constraint(m1, [i in 1:m], - v[i] + v[adj[2*i-1]] - v[adj[2*i]] <= 0)
     @constraint(m1, v[1] == 0) # on saute la source
     @constraint(m1, sum(v[i] for i in 1:m+n) == 1)
 
@@ -57,8 +56,6 @@ function Benders(file::String, b::Int64)
     else 
       valid = true
     end
-    
   end
   println(y_star)
-
 end

@@ -8,7 +8,7 @@ function readGraph(file::String)
     data=readlines(myFile)
     global n=parse(Int,data[1])
     global m=parse(Int,data[2])
-    global adj=zeros(n,n)       #matrice d'adjacene
+    global adj=[]       #matrice d'adjacence
     global demande=zeros(n)     #demande
     for i in 3:3+m-1
         line=split(data[i]," ")
@@ -16,8 +16,8 @@ function readGraph(file::String)
         #println("u : ",u+1)
         v=parse(Int,line[2])
         #println("v : ", v+1)
-        adj[u+1,v+1]=1
-        adj[v+1,u+1]=1
+        push!(adj,v+1)
+        push!(adj,u+1)
     end
     for i in 3+m:3+m+n-1
         line=split(data[i]," ")
