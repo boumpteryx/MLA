@@ -58,4 +58,5 @@ function Benders(file::String, b::Int64)
     end
   end
   println(y_star)
+  println(JuMP.getobjectivevalue.( m0 ))
 end
